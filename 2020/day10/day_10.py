@@ -4,6 +4,7 @@ import sys
 def main(argv):
     file = argv[1]
 
+    paths = {0:1}
     gaps = {}
     nums = []
     with open(file, 'r') as f:
@@ -16,9 +17,14 @@ def main(argv):
         gaps[difference] = gaps.get(difference, 0) + 1
         prev_num = num
 
+        # Keep track of paths
+        paths[num] = paths.get(num - 1, 0)
+        paths[num] += paths.get(num - 2, 0)
+        paths[num] += paths.get(num - 3, 0)
+
     gaps[3] = gaps.get(3, 0) + 1
 
-    print(gaps)
     print("Answer: %d" % (gaps.get(1, 0) * gaps.get(3, 0)))
+    print("Part 2: %d" % (paths[num]))
 if __name__ == '__main__':
     main(sys.argv)
